@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/points_for_statistic.txt" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/main/java/models/PointForStatistic.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/main/java/org/example/Calck.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/main/java/org/example/Events.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/main/java/org/example/History.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/main/java/org/example/Main.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/main/java/org/example/MarsSrvice.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/main/java/org/example/PasrserString.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/main/java/org/example/Statistics_run.java" charset="windows-1251" />
+  </component>
+</project>
