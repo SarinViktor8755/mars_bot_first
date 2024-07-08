@@ -127,10 +127,6 @@ public class Main {
 
 
 
-
-
-                 //   System.out.println("111");
-
                     if (mes.message().caption() != null) {
                         text_mes = mes.message().caption();
                         isPhoto = true;
@@ -165,8 +161,17 @@ public class Main {
                     }
 
 
+                    try {
+                        if (mes.message().text().contains("/history")) {
+                          //  delMess(mes,bot);
+                            SendResponse r = bot.execute(new SendMessage(chatId, Statistics_run.getHistory()));
+                           start_delate_mes(bot, r);
 
-
+                        }
+                    } catch (NullPointerException e) {
+                        e.printStackTrace();
+                    }
+                //    getHistory()
 
 
 

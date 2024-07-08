@@ -110,7 +110,7 @@ public class Statistics_run {
             if (t.get(i).getDist() == 0) continue;
             proc = t.get(i).getDist() / Float.valueOf(sum_dist) * 100;
             int num_tren = number_workouts_ser(t.get(i).getUser_id());
-            sb.append((i + 1) + " " + get_name_user(t.get(i)) + " - " + t.get(i).getDist() + "   _" + ((int) (proc))  +" %  КТ:"+ num_tren+ " СТ: "+ (t.get(i).getDist()/num_tren) +"\n");
+            sb.append((i + 1) + " " + get_name_user(t.get(i)) + " - " + t.get(i).getDist() + "   _" + ((int) (proc)) + " %  КТ:" + num_tren + " СТ: " + (t.get(i).getDist() / num_tren) + "\n");
         }
         sb.append("\nСредняя скорость: " + String.format("%.2f", History.getSpeed()) + " км/ч " + "\n" +
                 "Расчетная дата прибытия: " + History.get_ve_to_marsa() + "\n в сумме : " + sum_dist + " км\n ");
@@ -119,12 +119,12 @@ public class Statistics_run {
 
     }
 
-    private static int number_workouts_ser(Long id_user){
+    private static int number_workouts_ser(Long id_user) {
         int number_workouts_user = 0;
-        for (int i = 0; i < History.history_statistics.size(); i++){
-           // if(History.history_statistics.get(i).getId() == id_user) number_workouts_user++;
+        for (int i = 0; i < History.history_statistics.size(); i++) {
+            // if(History.history_statistics.get(i).getId() == id_user) number_workouts_user++;
             // System.out.println(History.history_statistics.get(i).getUser_id() + " == " + id_user);
-            if(History.history_statistics.get(i).getUser_id().equals(id_user)) number_workouts_user++;
+            if (History.history_statistics.get(i).getUser_id().equals(id_user)) number_workouts_user++;
         }
         return number_workouts_user;
     }
@@ -215,7 +215,7 @@ public class Statistics_run {
         String month = calendar.getDisplayName(Calendar.MONTH,
                 Calendar.LONG_FORMAT, new Locale("ru"));
 
-        sb.append("Таблица лидеров "+ month +":\n \n" );
+        sb.append("Таблица лидеров " + month + ":\n \n");
         for (int i = 0; i < t.size(); i++) {
             if (t.get(i).getDist() == 0) continue;
             proc = t.get(i).getDist() / Float.valueOf(sum_dist) * 100;
@@ -237,7 +237,7 @@ public class Statistics_run {
         for (int i = 0; i < History.history_statistics.size(); i++) {
             if (is_one_week(History.history_statistics.get(i).getDataPoint(), System.currentTimeMillis())) {
                 PointForStatistic po = History.history_statistics.get(i);
-              //  System.out.println(po.getId());
+                //  System.out.println(po.getId());
 
                 Integer kmm = History.history_add.get(po.getId().intValue());
                 if (kmm != null) po.setDist(kmm);
@@ -377,6 +377,33 @@ public class Statistics_run {
             Statistics_run.sum_dist += s.get(i).getDist();
         }
 
+    }
+
+    public static String getHistory() {
+        ArrayList<PointForStatistic> t = new ArrayList<>();
+        t.clear();
+
+        for (int i = History.history_statistics.size() - 50; i < History.history_statistics.size(); i++) {
+            if (true) {
+
+                PointForStatistic po = History.history_statistics.get(i);
+                //  System.out.println(po.getId());
+
+                Integer kmm = History.history_add.get(po.getId().intValue());
+                if (kmm != null) po.setDist(kmm);
+                t.add(po);
+
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+
+        int k = 0;
+        if (t.size() > 50) k = t.size() - 50;
+        for (int i = k; i < t.size(); i++) {
+            sb.append((i + 1) + " " + Statistics_run.get_name_user(t.get(i)) + "   + " + t.get(i).getDist() + "\n");
+        }
+
+        return sb.toString();
     }
 
 
