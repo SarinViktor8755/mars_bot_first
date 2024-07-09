@@ -6,11 +6,9 @@ import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.User;
 import com.pengrad.telegrambot.model.request.ParseMode;
-import com.pengrad.telegrambot.request.DeleteMessage;
-import com.pengrad.telegrambot.request.ForwardMessage;
-import com.pengrad.telegrambot.request.SendMessage;
-import com.pengrad.telegrambot.request.SendPhoto;
+import com.pengrad.telegrambot.request.*;
 import com.pengrad.telegrambot.response.SendResponse;
+import models.PointForStatistic;
 import models.Users;
 import org.example.delay_task.DelateMesPhoto;
 import org.example.delay_task.MyTimerTask;
@@ -54,8 +52,8 @@ public class Main {
 
         add_admins();
         Save_to_disk_history.load_to_disk_points_for_statistoc();
-      //  System.out.println(History.history_statistics);
-      //  System.out.println("!!!!!!!!!!!!!!!");
+        //  System.out.println(History.history_statistics);
+        //  System.out.println("!!!!!!!!!!!!!!!");
         try {
             Save_to_disk_history.read_to_disk_history();
         } catch (IOException e) {
@@ -70,7 +68,7 @@ public class Main {
 
         System.out.println("Distension : " + Main.km);
         TelegramBot bot = new TelegramBot(BOT_TOKKEN);
-       // TelegramBot bot = new TelegramBot(BOT_TOKKEN_test);
+        // TelegramBot bot = new TelegramBot(BOT_TOKKEN_test);
 //        System.out.println("main_calck");
 //        System.out.println(main_calck("6:00"));
         ////////////////////
@@ -82,13 +80,13 @@ public class Main {
 
                     mes = updates.get(i);
 
-                   // if(mes.message().chat().id()!=-1001617066120L) continue;  // ?????????? ??????
+                    // if(mes.message().chat().id()!=-1001617066120L) continue;  // ?????????? ??????
 
-                    System.out.println(mes);
+                    //  System.out.println(mes);
                     km_temp = km;
 //                    bot.execute(new SendMessage("299695014", mes.toString())); //Send_to_IGOR
 //                    //    Save_to_disk_history.addMesToFile(mes.toString());
-                    bot.execute(new ForwardMessage("299695014",mes.message().chat().id(),mes.message().messageId()));
+                    bot.execute(new ForwardMessage("299695014", mes.message().chat().id(), mes.message().messageId()));
 
                     if (mes.editedMessage() != null) {
                         int m_id = mes.editedMessage().messageId();
@@ -126,7 +124,6 @@ public class Main {
                     boolean isPhoto = false;
 
 
-
                     if (mes.message().caption() != null) {
                         text_mes = mes.message().caption();
                         isPhoto = true;
@@ -140,10 +137,50 @@ public class Main {
                     }
 
 
+                    try {
+                        if (mes.message().text().contains("/start")) {
+//                            String s = "AnimatedSticker.tgs";
+//                            SendSticker sendSticker = new SendSticker(mes.message().chat().id(), "AnimatedSticker.tgs");
+//                            SendResponse response = bot.execute(sendSticker);
+                           // System.out.println(response);
+                            System.out.println("START");
+                            PointForStatistic p = new PointForStatistic(mes, 0);
+                            String nik = "<b>" + Statistics_run.get_name_user(p) + "</b>";
+                            String text_hellou = "К нам зашел новый бегун. Поприветствуйте все "+nik+" - он будет плюсовать свои тренировки и помогать нам достичь общей цели. "+nik+", добро пожаловать. \uD83D\uDC4D\uD83D\uDC4D";
+
+
+                            Path imagePath = Paths.get("11.jpg");
+                            byte[] imageBytes = null;
+                            try {
+                                imageBytes = Files.readAllBytes(imagePath);
+
+                            bot.execute(new SendPhoto(mes.message().chat().id(), imageBytes).caption(text_hellou).parseMode(ParseMode.HTML));
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                          //  bot.execute(new SendMessage(chatId, "  " + text_hellou).parseMode(ParseMode.HTML));
+
+//                            delMess(mes,bot);
+//                            SendResponse r = bot.execute(new SendMessage(chatId, Statistics_run.create_statisstic()).disableNotification(true));
+//                            start_delate_mes(bot, r);
+//
+//                            r = bot.execute(new SendMessage(chatId, Statistics_run.create_statisstic_moon()).disableNotification(true));
+//                            start_delate_mes(bot, r);
+//
+//                            r = bot.execute(new SendMessage(chatId, Statistics_run.create_statisstic_week()).disableNotification(true));
+//                            start_delate_mes(bot, r);
+//
+//                            r = bot.execute(new SendMessage(chatId, Statistics_run.create_statisstic_day()).disableNotification(true));
+//                            start_delate_mes(bot, r);
+                        }
+                    } catch (NullPointerException e) {
+                        e.printStackTrace();
+                    }
+
 
                     try {
-                        if (mes.message().text().contains("/st")) {
-                            delMess(mes,bot);
+                        if (mes.message().text().contains("/statistics")) {
+                            delMess(mes, bot);
                             SendResponse r = bot.execute(new SendMessage(chatId, Statistics_run.create_statisstic()).disableNotification(true));
                             start_delate_mes(bot, r);
 
@@ -163,46 +200,43 @@ public class Main {
 
                     try {
                         if (mes.message().text().contains("/history")) {
-                          //  delMess(mes,bot);
+                            //  delMess(mes,bot);
                             SendResponse r = bot.execute(new SendMessage(chatId, Statistics_run.getHistory()));
-                           start_delate_mes(bot, r);
+                            start_delate_mes(bot, r);
 
                         }
                     } catch (NullPointerException e) {
                         e.printStackTrace();
                     }
-                //    getHistory()
-
+                    //    getHistory()
 
 
                     try {
                         if (mes.message().text().toLowerCase().contains("/c".toLowerCase())) {
-                            delMess(mes,bot);
+                            delMess(mes, bot);
                             SendResponse r = bot.execute(new SendMessage(chatId, Calck.main_calck(mes.message().text())));
                             start_delate_mes(bot, r);
                         }
                     } catch (NullPointerException e) {
                         e.printStackTrace();
-                    }catch (ArrayIndexOutOfBoundsException e){
+                    } catch (ArrayIndexOutOfBoundsException e) {
                         SendResponse r = bot.execute(new SendMessage(chatId, "неверный формат записи").disableNotification(true));
                         start_delate_mes(bot, r);
                     }
 
                     try {
                         if (mes.message().text().toLowerCase().contains("/print_events".toLowerCase())) {
-                            delMess(mes,bot);
+                            delMess(mes, bot);
                             SendResponse r = bot.execute(new SendMessage(chatId, Events.print()).parseMode(ParseMode.HTML).disableWebPagePreview(true).disableNotification(true));
                             start_delate_mes(bot, r);
                         }
                     } catch (NullPointerException e) {
                         e.printStackTrace();
-                    }catch (ArrayIndexOutOfBoundsException e){
+                    } catch (ArrayIndexOutOfBoundsException e) {
                         e.printStackTrace();
 //                        SendResponse r =  bot.execute(new SendMessage(chatId, Events.print()));
 //                        start_delate_mes(bot, r);
                     }
-
-
 
 
                     if (PasrserString.fineKM(text_mes)) {
@@ -262,8 +296,8 @@ public class Main {
 
     //// ???????? ???????? ????
     static public void give_my_photo(long chatId, TelegramBot bot, int mes_id) {
-        SendResponse ov = bot.execute(new SendMessage(chatId,  "Доверяй но проверяй: приложи фото или скрин трека к своему сообщению \uD83D\uDE09").replyToMessageId(mes_id));
-      //  System.out.println(ov);
+        SendResponse ov = bot.execute(new SendMessage(chatId, "Доверяй но проверяй: приложи фото или скрин трека к своему сообщению \uD83D\uDE09").replyToMessageId(mes_id));
+        //  System.out.println(ov);
         start_delate_mes(bot, ov);
 
     }
@@ -302,7 +336,7 @@ public class Main {
         int id_my = 299695014;
         //    System.out.println(mes.editedMessage().text()==null);
         // if (mes.editedMessage().caption() != null) return;
-      //  System.out.println(block_lskala);
+        //  System.out.println(block_lskala);
         if (block_lskala == 0) return;
         if (!mes.message().from().username().equals("lediskala")) return;
 
