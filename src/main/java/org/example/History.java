@@ -14,6 +14,7 @@ import java.util.HashMap;
 
 
 import static org.example.MarsSrvice.get_l_to_target;
+import static org.example.PasrserString.parsKmString;
 
 public class History { //история суммирования км
     static public HashMap<Integer, Integer> history_add = new HashMap<>();// история точки
@@ -93,13 +94,16 @@ public class History { //история суммирования км
             PointForStatistic p = History.history_statistics.get(i);
             if(mes_id == p.getId()){
                 p.setDist(kmDelta);
-                Save_to_disk_history.save_to_disk_points_for_statistoc();
                 return;
             }
         }
+        //если записи небыло - создаем новую
+      //  mes.message().messageId() = mes.editedMessage().messageId();
+        PointForStatistic p = new PointForStatistic(mes.editedMessage().messageId(),mes, kmDelta);
+        History.history_statistics.add(p);
+        Save_to_disk_history.save_to_disk_points_for_statistoc();
+
     }
-
-
 
 
 }

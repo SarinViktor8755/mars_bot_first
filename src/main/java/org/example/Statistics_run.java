@@ -382,8 +382,9 @@ public class Statistics_run {
     public static String getHistory() {
         ArrayList<PointForStatistic> t = new ArrayList<>();
         t.clear();
-
-        for (int i = History.history_statistics.size() - 50; i < History.history_statistics.size(); i++) {
+        int k = 0;
+        if(History.history_statistics.size()>50) k = History.history_statistics.size() - 50;
+        for (int i = k; i < History.history_statistics.size(); i++) {
             if (true) {
 
                 PointForStatistic po = History.history_statistics.get(i);
@@ -397,7 +398,7 @@ public class Statistics_run {
         }
         StringBuilder sb = new StringBuilder();
 
-        int k = 0;
+        k = 0;
         if (t.size() > 50) k = t.size() - 50;
         for (int i = k; i < t.size(); i++) {
             sb.append((i + 1) + " " + Statistics_run.get_name_user(t.get(i)) + "   + " + t.get(i).getDist() + "\n");

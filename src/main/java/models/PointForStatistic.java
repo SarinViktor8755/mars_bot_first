@@ -24,6 +24,17 @@ public class PointForStatistic {
         this.user_id = mes.message().from().id();
     }
 
+    public PointForStatistic(Integer mes_id,Update mes, int distantion) {
+        this.id = Long.valueOf(mes_id);
+        System.out.println(mes);
+        this.first_name = mes.editedMessage().from().firstName();
+        this.last_name =mes.editedMessage().from().lastName();
+        this.username =mes.editedMessage().from().username();
+        DataPoint = System.currentTimeMillis();
+        this.dist = distantion;
+        this.user_id = mes.editedMessage().from().id();
+    }
+
     public PointForStatistic() {
 
     }

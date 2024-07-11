@@ -86,24 +86,19 @@ public class Main {
                     km_temp = km;
 //                    bot.execute(new SendMessage("299695014", mes.toString())); //Send_to_IGOR
 //                    //    Save_to_disk_history.addMesToFile(mes.toString());
-                    bot.execute(new ForwardMessage("299695014", mes.message().chat().id(), mes.message().messageId()));
+//                    bot.execute(new ForwardMessage("299695014", mes.message().chat().id(), mes.message().messageId()));
 
                     if (mes.editedMessage() != null) {
                         int m_id = mes.editedMessage().messageId();
                         String new_text = mes.editedMessage().caption();
-
                         if (mes.editedMessage().caption() != null) new_text = mes.editedMessage().caption();
-
                         if (!PasrserString.fineKM(new_text)) break;
-
                         int km_delta = History.make_changes_to_the_message(m_id, new_text);
-
-
-                        //  History.add_reuslt_from_statistic(mes,km_delta);
 
 
                         if (km_delta == 0) break;
                         Main.km += km_delta;
+
                         // System.out.println(mes);
                         int km_in_mes = parsKmString(new_text);
                         bot.execute(new SendMessage(mes.editedMessage().chat().id(), "»справлено ::\n" + MarsSrvice.calculate_percentage(km, km_in_mes)).replyToMessageId(m_id));
@@ -142,23 +137,25 @@ public class Main {
 //                            String s = "AnimatedSticker.tgs";
 //                            SendSticker sendSticker = new SendSticker(mes.message().chat().id(), "AnimatedSticker.tgs");
 //                            SendResponse response = bot.execute(sendSticker);
-                           // System.out.println(response);
+                            // System.out.println(response);
                             System.out.println("START");
                             PointForStatistic p = new PointForStatistic(mes, 0);
                             String nik = "<b>" + Statistics_run.get_name_user(p) + "</b>";
-                            String text_hellou = "  нам зашел новый бегун. ѕоприветствуйте все "+nik+" - он будет плюсовать свои тренировки и помогать нам достичь общей цели. "+nik+", добро пожаловать. \uD83D\uDC4D\uD83D\uDC4D";
+                            String text_hellou = "  нам зашел новый бегун. ѕоприветствуйте все " + nik + " - он будет плюсовать свои тренировки и помогать нам достичь общей цели. " + nik + ", добро пожаловать. \uD83D\uDC4D\uD83D\uDC4D";
 
 
-                            Path imagePath = Paths.get("11.jpg");
+                            Path imagePath = Paths.get("11.gif");
                             byte[] imageBytes = null;
                             try {
                                 imageBytes = Files.readAllBytes(imagePath);
-
-                            bot.execute(new SendPhoto(mes.message().chat().id(), imageBytes).caption(text_hellou).parseMode(ParseMode.HTML));
+                                bot.execute(new SendAnimation(mes.message().chat().id(), imageBytes).caption(text_hellou).parseMode(ParseMode.HTML));
+                                // bot.execute(new SendPhoto(mes.message().chat().id(), imageBytes).caption(text_hellou).parseMode(ParseMode.HTML));
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
-                          //  bot.execute(new SendMessage(chatId, "  " + text_hellou).parseMode(ParseMode.HTML));
+
+
+                            //  bot.execute(new SendMessage(chatId, "  " + text_hellou).parseMode(ParseMode.HTML));
 
 //                            delMess(mes,bot);
 //                            SendResponse r = bot.execute(new SendMessage(chatId, Statistics_run.create_statisstic()).disableNotification(true));
@@ -180,6 +177,7 @@ public class Main {
 
                     try {
                         if (mes.message().text().contains("/statistics")) {
+                            System.out.println("statistics");
                             delMess(mes, bot);
                             SendResponse r = bot.execute(new SendMessage(chatId, Statistics_run.create_statisstic()).disableNotification(true));
                             start_delate_mes(bot, r);
@@ -247,6 +245,9 @@ public class Main {
                             ask_km(text_mes, bot, chatId, user, mes.message().messageId());
                             History.add_reuslt_from_statistic(mes, parsKmString(text_mes));
                         }
+//                        System.out.println(km);
+//                        System.out.println(Distance_Earth_Mars);
+                        if (km > Distance_Earth_Mars) send_photo(bot, "33333.jpg", mes.message().chat().id());
                     }
                     //check_1000
 
