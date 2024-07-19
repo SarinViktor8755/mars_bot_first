@@ -7,7 +7,7 @@ import static org.example.Main.*;
 public class MarsSrvice {
 
     static final String ballEmoji = "\uD83D\uDC4D";
-
+    static public final float Distance_Earth_Mars = 54_600; // ???? ?????????
     static String calculate_percentage(long km, int user_run) {
 
         float res = (km / Distance_Earth_Mars) * 100;

@@ -7,6 +7,7 @@ import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.User;
 import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.*;
+import com.pengrad.telegrambot.response.BaseResponse;
 import com.pengrad.telegrambot.response.SendResponse;
 import models.PointForStatistic;
 import models.Users;
@@ -26,6 +27,7 @@ import java.util.Timer;
 
 import static org.example.Calck.main_calck;
 import static org.example.PasrserString.parsKmString;
+import static org.example.RouteService.Distance_Earth_Mars;
 
 
 public class Main {
@@ -41,7 +43,7 @@ public class Main {
     static public long km = 0; // ?????????
     static public long km_temp = 0; // ????????? ?????????
 
-    static public final float Distance_Earth_Mars = 54_600; // ???? ?????????
+
 
     static public ArrayList<String> Admins_nik = new ArrayList<>();
 
@@ -67,11 +69,30 @@ public class Main {
         start_distanc(args);
 
         System.out.println("Distension : " + Main.km);
-        TelegramBot bot = new TelegramBot(BOT_TOKKEN);
+        TelegramBot bot = new TelegramBot(BOT_TOKKEN_test);
         // TelegramBot bot = new TelegramBot(BOT_TOKKEN_test);
 //        System.out.println("main_calck");
 //        System.out.println(main_calck("6:00"));
         ////////////////////
+
+        for (int i = 0; i < RouteService.City_Name.length; i++) {
+            System.out.println(RouteService.City_Name[i]);
+            System.out.println(RouteService.City_Distant[i]);
+
+        }
+        System.out.println(RouteService.get_sum_distanc());
+
+        for (int i = 100; i < 90_000 ; i+=100) {
+            if(RouteService.take_stage(i) <800)
+            System.out.println(i+"  "+RouteService.take_stage(i) + "  " + RouteService.City_Name[RouteService.take_stage(i)]);
+        }
+        System.out.println("-----");
+        for (int i = 0; i < 20; i++) {
+
+            System.out.println(RouteService.etermine_distance(i));
+        }
+
+
         bot.setUpdatesListener(updates -> {
             Update mes;
 
@@ -79,7 +100,8 @@ public class Main {
                 try {
 
                     mes = updates.get(i);
-
+                   // в личку
+                    //System.out.println(dd);
                     // if(mes.message().chat().id()!=-1001617066120L) continue;  // ?????????? ??????
 
                     //  System.out.println(mes);
@@ -178,7 +200,7 @@ public class Main {
                     try {
                         if (mes.message().text().contains("/statistics")) {
                             System.out.println("statistics");
-                            delMess(mes, bot);
+                            delMess(mes, bot); // удаление команды 
                             SendResponse r = bot.execute(new SendMessage(chatId, Statistics_run.create_statisstic()).disableNotification(true));
                             start_delate_mes(bot, r);
 
