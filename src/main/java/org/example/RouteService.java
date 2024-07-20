@@ -57,4 +57,13 @@ public class RouteService {
         return l;
     }
 
+
+    public static float get_percentage_stage(int ñurrent_distance){
+        System.out.println(etermine_distance(ñurrent_distance));
+        float a = etermine_distance(ñurrent_distance);
+        float b = (ñurrent_distance - etermine_distance(ñurrent_distance)) * -1;
+
+        return MarsSrvice.map(0,a,100,0 ,b);
+    }
+
 }

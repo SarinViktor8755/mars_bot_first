@@ -83,9 +83,11 @@ public class Main {
         }
         System.out.println(RouteService.get_sum_distanc());
 
-        for (int i = 100; i < 90_000 ; i+=100) {
+        for (int i = 0; i < 3000 ; i+=100) {
+            System.out.println();
             if(RouteService.take_stage(i) <800)
             System.out.println(i+"  "+RouteService.take_stage(i) + "  " + RouteService.City_Name[RouteService.take_stage(i)]);
+            System.out.println(RouteService.get_percentage_stage(i));
         }
         System.out.println("-----");
 //        for (int i = 0; i < 20; i++) {

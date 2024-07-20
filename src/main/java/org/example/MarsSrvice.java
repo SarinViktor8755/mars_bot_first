@@ -10,7 +10,7 @@ public class MarsSrvice {
     //static public final float Distance_Earth_Mars = 54_600; // ???? ?????????
     static String calculate_percentage(long km, int user_run) {
 
-        float res = (km / RouteService.get_sum_distanc()) * 100;
+        float res = RouteService.get_percentage_stage((int)km);
         if (res <= 100)
             return "принято " + user_run + " км " + create_emogi(user_run) + "\n" + String.format(Locale.US, "%,d", Main.km_temp)  + "+" +
                     user_run + "=" + String.format(Locale.US, "%,d", km) + " \\ " +
@@ -28,15 +28,16 @@ public class MarsSrvice {
         int point = (int) map(0, RouteService.get_sum_distanc(), 0, length_bar, Main.km);
         StringBuilder sb = new StringBuilder();
  //       sb.append("?|");
-//        for (int i = 0; i < length_bar; i++) {
-//            if (point == i) sb.append("*(??)>");
-//            if (point < i) sb.append("-");
-//            if (point > i) sb.append("=");
-//
-//        }
+        String proc = String.format(Locale.US, "%,d", (int) (res));
+        for (int i = 0; i < length_bar; i++) {
+            if (point == i) sb.append(proc);
+            if (point < i) sb.append("-");
+            if (point > i) sb.append("=");
+
+        }
    //     sb.append("|?");
-        sb.append("Цель : "+ RouteService.get_name_current_target((int) km));
-        sb.append("\n до цели : "+ (RouteService.etermine_distance((int) km)-(int)km));
+        sb.append("\n"+ RouteService.get_name_current_target((int) km));
+        sb.append("\nдо цели : "+ (RouteService.etermine_distance((int) km)-(int)km));
         return sb.toString();
     }
 
