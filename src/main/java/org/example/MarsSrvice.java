@@ -7,49 +7,51 @@ import static org.example.Main.*;
 public class MarsSrvice {
 
     static final String ballEmoji = "\uD83D\uDC4D";
-    static public final float Distance_Earth_Mars = 54_600; // ???? ?????????
+    //static public final float Distance_Earth_Mars = 54_600; // ???? ?????????
     static String calculate_percentage(long km, int user_run) {
 
-        float res = (km / Distance_Earth_Mars) * 100;
+        float res = (km / RouteService.get_sum_distanc()) * 100;
         if (res <= 100)
-            return "Принято " + user_run + " км " + create_emogi(user_run) + "\n" + String.format(Locale.US, "%,d", Main.km_temp)  + "+" +
+            return "принято " + user_run + " км " + create_emogi(user_run) + "\n" + String.format(Locale.US, "%,d", Main.km_temp)  + "+" +
                     user_run + "=" + String.format(Locale.US, "%,d", km) + " \\ " +
                     String.format(Locale.US, "%,d", (int) ((get_l_to_target()))) + " \n"
-                    + create_track_bar(19, res);
+                    + create_track_bar(19, res,km);
         else{
-
             return "Финиш!!!\nПробежали " + String.format(Locale.US, "%,d", km);}
     }
 
     static public float get_l_to_target() {
-        return Distance_Earth_Mars - km;
+        return RouteService.get_sum_distanc() - km;
     }
 
-    static String create_track_bar(int length_bar) {
-        int point = (int) map(0, Distance_Earth_Mars, 0, length_bar, km);
+    static String create_track_bar(int length_bar, float res, long km) {
+        int point = (int) map(0, RouteService.get_sum_distanc(), 0, length_bar, Main.km);
         StringBuilder sb = new StringBuilder();
-        sb.append("?|");
-        for (int i = 0; i < length_bar; i++) {
-            if (point == i) sb.append("*(??)>");
-            if (point < i) sb.append("-");
-            if (point > i) sb.append("=");
-
-        }
-        sb.append("|?");
+ //       sb.append("?|");
+//        for (int i = 0; i < length_bar; i++) {
+//            if (point == i) sb.append("*(??)>");
+//            if (point < i) sb.append("-");
+//            if (point > i) sb.append("=");
+//
+//        }
+   //     sb.append("|?");
+        sb.append("Цель : "+ RouteService.get_name_current_target((int) km));
+        sb.append("\n до цели : "+ (RouteService.etermine_distance((int) km)-(int)km));
         return sb.toString();
     }
 
-    static String create_track_bar(int length_bar, float proc) {
-        int point = (int) map(0, Distance_Earth_Mars, 0, length_bar, km);
+    static String create_track_bar(int length_bar, float proc,int km) {
+        int point = (int) map(0, RouteService.get_sum_distanc(), 0, length_bar, km);
         StringBuilder sb = new StringBuilder();
-        sb.append("\uD83C\uDF0F|");
+         sb.append("|");
         for (int i = 0; i < length_bar; i++) {
-            if (point == i) sb.append("" + String.format("%.1f", proc) + "%>");
+            if (point == i) sb.append("" + String.format("%.1f", proc) + "\uD83C\uDFC3\u200D\uFE0F");
             if (point < i) sb.append("-");
             if (point > i) sb.append("=");
 
         }
-        sb.append("|\uD83D\uDD34");
+       // sb.append("|\uD83D\uDD34");
+        sb.append(RouteService.get_name_current_target(km));
         return sb.toString();
     }
 

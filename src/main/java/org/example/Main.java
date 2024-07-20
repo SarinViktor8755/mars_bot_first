@@ -51,6 +51,7 @@ public class Main {
         //Statistics_run.parser_log();
 
         System.out.println("Start_BOT_RUN");
+        System.out.println(System.currentTimeMillis());
 
         add_admins();
         Save_to_disk_history.load_to_disk_points_for_statistoc();
@@ -69,7 +70,7 @@ public class Main {
         start_distanc(args);
 
         System.out.println("Distension : " + Main.km);
-        TelegramBot bot = new TelegramBot(BOT_TOKKEN_test);
+        TelegramBot bot = new TelegramBot(BOT_TOKKEN);
         // TelegramBot bot = new TelegramBot(BOT_TOKKEN_test);
 //        System.out.println("main_calck");
 //        System.out.println(main_calck("6:00"));
@@ -87,10 +88,9 @@ public class Main {
             System.out.println(i+"  "+RouteService.take_stage(i) + "  " + RouteService.City_Name[RouteService.take_stage(i)]);
         }
         System.out.println("-----");
-        for (int i = 0; i < 20; i++) {
-
-            System.out.println(RouteService.etermine_distance(i));
-        }
+//        for (int i = 0; i < 20; i++) {
+//            System.out.println(RouteService.etermine_distance(i));
+//        }
 
 
         bot.setUpdatesListener(updates -> {
@@ -269,7 +269,7 @@ public class Main {
                         }
 //                        System.out.println(km);
 //                        System.out.println(Distance_Earth_Mars);
-                        if (km > Distance_Earth_Mars) send_photo(bot, "33333.jpg", mes.message().chat().id());
+                        if (km > RouteService.get_sum_distanc()) send_photo(bot, "33333.jpg", mes.message().chat().id());
                     }
                     //check_1000
 

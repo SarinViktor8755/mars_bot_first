@@ -6,20 +6,33 @@ public class RouteService {
     static final String ballEmoji = "\uD83D\uDC4D";
     static public final float Distance_Earth_Mars = 54_600; // ???? ?????????
 
-    static public String City_Name[] = {"РњРѕСЃРєРІР°", "Р‘РµСЂР»РёРЅ", "РџР°СЂРёР¶", "Р›РѕРЅРґРѕРЅ", "РќСЊСЋ-Р™РѕСЂРє", "Р§РёРєР°РіРѕ", "Р›РѕСЃ-РђРЅРґР¶РµР»РµСЃ", "РўРѕРєРёРѕ", "РџРµРєРёРЅ", "РЎРёРґРЅРµР№", "РљРµР№РїС‚Р°СѓРЅ", "РљР°РёСЂ", "РЎС‚Р°РјР±СѓР»", "РђС„РёРЅС‹", "Р РёРј", "Р‘Р°СЂСЃРµР»РѕРЅР°", "Р›РёСЃСЃР°Р±РѕРЅ", "Р РёРѕ-РґРµ-Р–Р°РЅРµР№СЂРѕ", "Р‘СѓСЌРЅРѕСЃ-РђР№СЂРµСЃ", "РЎР°РЅС‚СЊСЏРіРѕ", "Р›РёРјР°", "РњРµС…РёРєРѕ", "Р›РѕСЃ-РђРЅРґР¶РµР»РµСЃ", "РћРјСЃРє"};
+    static public String City_Name[] = {"Москва", "Берлин", "Париж", "Лондон", "Нью-Йорк", "Чикаго", "Лос-Анджелес", "Токио", "Пекин", "Сидней", "Кейптаун", "Каир", "Стамбул", "Афины", "Рим", "Барселона", "Лиссабон", "Рио-де-Жанейро", "Буэнос-Айрес", "Сантьяго", "Лима", "Мехико", "Лос-Анджелес", "Омск"};
     static public int City_Distant[] = {2700, 1800, 1050, 350, 5600, 1300, 2800, 8800, 2100, 8500, 11000, 8000, 1300, 600, 1100, 850, 1000, 7900, 2000, 1400, 2500, 4200, 2500, 9500 + 2500};
 
     public static int get_sum_distanc() {
         return Arrays.stream(City_Distant).sum();
     }
 
-    public static int take_stage(int СЃurrent_distance) {
+
+    public static String get_name_current_target(int distantion){ // взять имя цели
+        return City_Name[take_stage(distantion)];
+    }
+
+    public static String get_name_current_target(float distantion){ // взять имя цели
+        return City_Name[take_stage((int)distantion)];
+    }
+
+
+    public static int take_stage(float сurrent_distance){
+        return take_stage((int)сurrent_distance);
+    }
+    public static int take_stage(int сurrent_distance) {// текущий этап
         int temp_lith = 0;
         int result = 0;
         for (int i = 0; i < City_Distant.length; i++) {
             temp_lith += City_Distant[i];
-            if (СЃurrent_distance >= get_sum_distanc()) result = 999;
-            if (СЃurrent_distance < temp_lith) {
+            if (сurrent_distance >= get_sum_distanc()) result = 999;
+            if (сurrent_distance < temp_lith) {
                 result = i;
                 break;
             }
@@ -27,12 +40,20 @@ public class RouteService {
         return result;
     }
 
-    public static int etermine_distance(int etap) {// СЂР°СЃС‚РѕСЏРЅРёРµ РґР»СЏ СЌС‚Р°РїР°
+//    public static int etermine_distance(int etap) {// растояние для этапа
+//        int l = 0;
+//        for (int i = 0; i < etap + 1; i++) {
+//            l += City_Distant[i];
+//        }
+//        return l;
+//    }
+
+    public static int etermine_distance(int km) {// растояние для этапа
         int l = 0;
+        int etap = take_stage(km);
         for (int i = 0; i < etap + 1; i++) {
             l += City_Distant[i];
         }
-
         return l;
     }
 

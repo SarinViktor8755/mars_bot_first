@@ -61,7 +61,10 @@ public class Save_to_disk_history {
             History.starTimePoint = Long.parseLong(split_l[0]);
             Main.km = Long.parseLong(split_l[1]);
         } else {
-            History.history_add.put(Integer.valueOf(split_l[0]), Integer.valueOf(split_l[1]));
+            try {
+                History.history_add.put(Integer.valueOf(split_l[0]), Integer.valueOf(split_l[1]));
+            }catch (NumberFormatException e){}
+
         }
     }
 
