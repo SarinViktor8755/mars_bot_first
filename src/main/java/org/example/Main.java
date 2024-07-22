@@ -238,7 +238,7 @@ public class Main {
                     }
                     //    getHistory()
 
-
+                    System.out.println("CHECK");
                     try {
                         if (mes.message().text().toLowerCase().contains("/c".toLowerCase())) {
                             delMess(mes, bot);
@@ -285,6 +285,13 @@ public class Main {
                     if (check_thousand()) {
                         send_photo(bot, "22.jpg", mes.message().chat().id());
                     }
+
+                    if (check_City()) {
+                        String file = RouteService.take_stage(km)+"b.jpg";
+                        send_photo(bot, file, mes.message().chat().id());
+                    }
+
+
 
                     //skala
                     //  check_block(mes, bot);
@@ -361,6 +368,12 @@ public class Main {
         if ((km / 1000) != (km_temp / 1000)) return true;
         return false;
     }
+
+    static public boolean check_City() {
+        if (RouteService.take_stage(km) != RouteService.take_stage(km_temp)) return true;
+        return false;
+    }
+
 
     static public void lediskala_Del(TelegramBot bot, Update mes) {
         System.out.println(block_lskala);
