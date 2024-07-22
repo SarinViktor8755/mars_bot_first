@@ -24,6 +24,5 @@ public class DelateMesPhoto  extends TimerTask {
         DeleteMessage deleteMessage = new DeleteMessage(chat_id, mes_id);
         bot.execute(deleteMessage);
 
-
     }
 }

@@ -1,6 +1,9 @@
 package org.example;
 
+import org.example.delay_task.RandomXS128;
+
 import java.util.Locale;
+import java.util.Random;
 
 import static org.example.Main.*;
 
@@ -74,6 +77,10 @@ public class MarsSrvice {
 
     static public float map(float inRangeStart, float inRangeEnd, float outRangeStart, float outRangeEnd, float value) {
         return outRangeStart + (value - inRangeStart) * (outRangeEnd - outRangeStart) / (inRangeEnd - inRangeStart);
+    }
+    static public Random random = new RandomXS128();
+    static public int random (int start, int end) {
+        return start + random.nextInt(end - start + 1);
     }
 
     public static boolean isFinish(){

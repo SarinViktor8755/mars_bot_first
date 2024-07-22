@@ -25,7 +25,7 @@ public class History { //история суммирования км
 
     static public void startTime() {
 
-    //    System.out.println("Текущая дата: " + starTimePoint);
+        //    System.out.println("Текущая дата: " + starTimePoint);
     }
 
     static public long startDeltaTime() {
@@ -45,6 +45,7 @@ public class History { //история суммирования км
 
     static public double getSpeed() { // тексущася среняя скосроть
         double speed = getSumKM() / (History.startDeltaTime() / (double) Constants.HOUR);
+        if (history_statistics.size() < 50) speed = 10;
         return speed;
     }
 
@@ -61,7 +62,7 @@ public class History { //история суммирования км
 
 
     static public void print_history() {
-     //   System.out.println(history_add.size());
+        //   System.out.println(history_add.size());
         history_add.forEach((key, value) -> System.out.println(key + " " + value));
     }
 
@@ -82,7 +83,7 @@ public class History { //история суммирования км
         PointForStatistic p = new PointForStatistic(mes, km);
         History.history_statistics.add(p);
         Save_to_disk_history.save_to_disk_points_for_statistoc();
-      //  System.out.println(History.history_statistics);
+        //  System.out.println(History.history_statistics);
 
 
     }
@@ -92,14 +93,14 @@ public class History { //история суммирования км
         int mes_id = mes.editedMessage().messageId();
         for (int i = 0; i < History.history_statistics.size(); i++) {
             PointForStatistic p = History.history_statistics.get(i);
-            if(mes_id == p.getId()){
+            if (mes_id == p.getId()) {
                 p.setDist(kmDelta);
                 return;
             }
         }
         //если записи небыло - создаем новую
-      //  mes.message().messageId() = mes.editedMessage().messageId();
-        PointForStatistic p = new PointForStatistic(mes.editedMessage().messageId(),mes, kmDelta);
+        //  mes.message().messageId() = mes.editedMessage().messageId();
+        PointForStatistic p = new PointForStatistic(mes.editedMessage().messageId(), mes, kmDelta);
         History.history_statistics.add(p);
         Save_to_disk_history.save_to_disk_points_for_statistoc();
 

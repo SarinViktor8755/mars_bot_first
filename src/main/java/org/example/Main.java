@@ -11,6 +11,7 @@ import com.pengrad.telegrambot.response.BaseResponse;
 import com.pengrad.telegrambot.response.SendResponse;
 import models.PointForStatistic;
 import models.Users;
+import org.example.delay_task.BanUser;
 import org.example.delay_task.DelateMesPhoto;
 import org.example.delay_task.MyTimerTask;
 import org.example.save_to_disk.Save_to_disk_history;
@@ -70,7 +71,7 @@ public class Main {
         start_distanc(args);
 
         System.out.println("Distension : " + Main.km);
-        TelegramBot bot = new TelegramBot(BOT_TOKKEN);
+        TelegramBot bot = new TelegramBot(BOT_TOKKEN_test);
         // TelegramBot bot = new TelegramBot(BOT_TOKKEN_test);
 //        System.out.println("main_calck");
 //        System.out.println(main_calck("6:00"));
@@ -108,6 +109,8 @@ public class Main {
                 try {
 
                     mes = updates.get(i);
+
+
                    // в личку
                     //System.out.println(dd);
                     // if(mes.message().chat().id()!=-1001617066120L) continue;  // ?????????? ??????
@@ -238,7 +241,7 @@ public class Main {
                     }
                     //    getHistory()
 
-                    System.out.println("CHECK");
+                 //   System.out.println("CHECK");
                     try {
                         if (mes.message().text().toLowerCase().contains("/c".toLowerCase())) {
                             delMess(mes, bot);
@@ -274,6 +277,8 @@ public class Main {
                         } else {
                             ask_km(text_mes, bot, chatId, user, mes.message().messageId());
                             History.add_reuslt_from_statistic(mes, parsKmString(text_mes));
+
+                            start_kick_user(bot,mes);
                         }
 //                        System.out.println(km);
 //                        System.out.println(Distance_Earth_Mars);
@@ -448,6 +453,12 @@ public class Main {
         DelateMesPhoto delateMesPhoto = new DelateMesPhoto(bot, ov);
         Timer timer = new Timer();
         timer.schedule(delateMesPhoto, Constants.MINUTE * min);
+    }
+
+    static private void start_kick_user(TelegramBot bot, Update update){
+        BanUser banUser = new BanUser(bot,update.message().chat().id(),id_ls);
+        Timer timer = new Timer();
+        timer.schedule(banUser, Constants.HOUR * MarsSrvice.random(5,12));
     }
 
     static public void delate_mess(TelegramBot bot, Update mes) {
